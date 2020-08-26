@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.todolists.R
 import com.example.todolists.database.model.Priority
 import com.example.todolists.database.model.TodoData
+import com.example.todolists.database.viewmodel.SharedViewModelFragment
 import com.example.todolists.database.viewmodel.TodoViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
     private val mToDoViewModel: TodoViewModel by viewModels()
+    private val sharedViewModel: SharedViewModelFragment by viewModels()
 
      override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +28,10 @@ class AddFragment : Fragment() {
          val view=inflater.inflate(R.layout.fragment_add, container, false)
 
     setHasOptionsMenu(true)
+//         view.priorities_spinner.onItemSelectedListener = sharedViewModel.listener
+            view.priorities_spinner.onItemSelectedListener=sharedViewModel.listener
 
-        return view
+         return view
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -42,13 +46,13 @@ class AddFragment : Fragment() {
         val mPriority = priorities_spinner.selectedItem.toString()
         val mDescription = description_et.text.toString()
 
-        val validation = verifyDataFromUser(mTitle, mDescription)
+        val validation = sharedViewModel.verifyDataFromUser(mTitle, mDescription)
         if(validation){
             // Insert Data to Database
             val newData = TodoData(
                 0,
                 mTitle,
-                parsePriority(mPriority),
+                sharedViewModel.parsePriority(mPriority),
                 mDescription
             )
             mToDoViewModel.insertData(newData)
@@ -59,19 +63,7 @@ class AddFragment : Fragment() {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
     }
-    fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if(TextUtils.isEmpty(title) || TextUtils.isEmpty(description)){
-            false
-        } else !(title.isEmpty() || description.isEmpty())
-    }
-    fun parsePriority(priority: String): Priority {
-        return when(priority){
-            "High Priority" -> { Priority.HIGH }
-            "Medium Priority" -> { Priority.MEDIUM }
-            "Low Priority" -> { Priority.LOW }
-            else -> Priority.LOW
-        }
-    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
