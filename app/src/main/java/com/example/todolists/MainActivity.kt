@@ -1,5 +1,10 @@
 package com.example.todolists
-
+/*
+* 1  Whaaat is App compat activity
+* 2 What are the navigation components
+* 3 What is Android X
+*
+* */
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
