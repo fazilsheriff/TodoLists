@@ -10,8 +10,17 @@ class TodoRepository (private val toDoDao: ToDoDAO) {
 
 //    val getAllData: LiveData<List<ToDoData>> = toDoDao.getAllData()
 
+//Insert
     suspend fun insertData(toDoData: TodoData){
         toDoDao.insertData(toDoData)
     }
+
+    //Update
+    suspend fun updateData(toDoData: TodoData)
+    {
+        toDoDao.updateData(toDoData)
+    }
+
+
 
 }
