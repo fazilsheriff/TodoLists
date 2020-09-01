@@ -1,5 +1,6 @@
 package com.example.todolists.fragments.Update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.renderscript.RenderScript
 import android.view.*
@@ -50,7 +51,28 @@ class UpdateFragment : Fragment() {
             updateValues()
         }
 
+        else if(item.itemId==R.id.delete_menu){
+            deleteItem()
+        }
+
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteItem() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            mTodoViewModelFragment.deleteData(args.currentItem)
+            Toast.makeText(
+                requireContext(),
+                "Successfully Removed: ${args.currentItem.title}",
+                Toast.LENGTH_SHORT
+            ).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No") { _, _ -> }
+        builder.setTitle("Delete '${args.currentItem.title}'?")
+        builder.setMessage("Are you sure you want to remove '${args.currentItem.title}'?")
+        builder.create().show()
     }
 
     private fun updateValues() {
