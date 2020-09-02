@@ -1,8 +1,10 @@
 package com.example.todolists.fragments.List
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -41,6 +43,30 @@ class ListFragment : Fragment() {
 
         setHasOptionsMenu(true)
         return view
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.delete_all_menu) {
+           deleteAllValues()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteAllValues() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            mToDoViewModel.deleteAllDatas()
+            Toast.makeText(
+                requireContext(),
+                "Successfully Removed all items: ",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        builder.setNegativeButton("No") { _, _ -> }
+        builder.setTitle("Delete All items?")
+        builder.setMessage("Are you sure you want to remove all items?")
+        builder.create().show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

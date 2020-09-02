@@ -28,7 +28,7 @@
         </item>
     </group>
     <item
-        android:id="@+id/menu_delete_all"
+        android:id="@+id/delete_all_menu"
         android:title="@string/delete_all"
         app:showAsAction="never"/>
 </menu>
