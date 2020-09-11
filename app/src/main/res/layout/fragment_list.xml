@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="mSharedViewModel"
+            type="com.example.todolists.database.viewmodel.SharedViewModelFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:emptyDatabase="@{mSharedViewModel.emptyDataBase}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.535"
@@ -44,6 +48,7 @@
             android:text="@string/no_data"
             android:textSize="14sp"
             android:visibility="gone"
+            android:emptyDatabase="@{mSharedViewModel.emptyDataBase}"
             app:layout_constraintBottom_toBottomOf="@+id/recylerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

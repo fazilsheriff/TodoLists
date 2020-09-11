@@ -24,6 +24,7 @@ class ListFragment : Fragment() {
     private val adapter: ListAdapter by lazy { ListAdapter() }
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
+    private val mSharedViewModel: SharedViewModelFragment by viewModels()
 
 
     override fun onCreateView(
@@ -32,6 +33,7 @@ class ListFragment : Fragment() {
     ): View? {
         _binding = FragmentListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.mSharedViewModel = mSharedViewModel
 
         // Inflate the layout for this fragment
 //        val view=inflater.inflate(R.layout.fragment_list, container, false)
@@ -46,10 +48,10 @@ class ListFragment : Fragment() {
             adapter.setData(it)
         })
 
-        mSharedViewModelFragment.emptyDataBase.observe(viewLifecycleOwner, Observer {
-
-            ShowDataBaseEmptyViews(it)
-        })
+//        mSharedViewModelFragment.emptyDataBase.observe(viewLifecycleOwner, Observer {
+//
+//            ShowDataBaseEmptyViews(it)
+//        })
 
 
 
@@ -62,19 +64,19 @@ class ListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager =LinearLayoutManager(requireActivity())    }
 
-    private fun ShowDataBaseEmptyViews(emptyDataBase: Boolean) {
-            if(emptyDataBase)
-            {
-                view?.txtnoData?.visibility=View.VISIBLE
-                view?.ivNoData?.visibility=View.VISIBLE
-            }
-
-        else
-            {
-                view?.txtnoData?.visibility=View.INVISIBLE
-                view?.ivNoData?.visibility=View.INVISIBLE
-            }
-    }
+//    private fun ShowDataBaseEmptyViews(emptyDataBase: Boolean) {
+//            if(emptyDataBase)
+//            {
+//                view?.txtnoData?.visibility=View.VISIBLE
+//                view?.ivNoData?.visibility=View.VISIBLE
+//            }
+//
+//        else
+//            {
+//                view?.txtnoData?.visibility=View.INVISIBLE
+//                view?.ivNoData?.visibility=View.INVISIBLE
+//            }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
