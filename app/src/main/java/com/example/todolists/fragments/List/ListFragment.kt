@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolists.R
 import com.example.todolists.database.viewmodel.SharedViewModelFragment
 import com.example.todolists.database.viewmodel.TodoViewModel
+import com.example.todolists.databinding.FragmentListBinding
 import kotlinx.android.synthetic.main.fragment_add.view.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -21,18 +22,24 @@ class ListFragment : Fragment() {
     private val mToDoViewModel: TodoViewModel by viewModels()
     private val mSharedViewModelFragment: SharedViewModelFragment by viewModels()
     private val adapter: ListAdapter by lazy { ListAdapter() }
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view=inflater.inflate(R.layout.fragment_list, container, false)
+        _binding = FragmentListBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
-        val recyclerView = view.recylerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager =LinearLayoutManager(requireActivity())
+        // Inflate the layout for this fragment
+//        val view=inflater.inflate(R.layout.fragment_list, container, false)
+
+        // Setup RecyclerView
+        setupRecyclerview()
+
+
 
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer {
             mSharedViewModelFragment.checkIfDatabaseEmpty(it)
@@ -44,14 +51,16 @@ class ListFragment : Fragment() {
             ShowDataBaseEmptyViews(it)
         })
 
-        view.floatingActionBarAddData.setOnClickListener{
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
 
 
         setHasOptionsMenu(true)
-        return view
+        return binding.root
     }
+
+    private fun setupRecyclerview() {
+        val recyclerView = binding.recylerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager =LinearLayoutManager(requireActivity())    }
 
     private fun ShowDataBaseEmptyViews(emptyDataBase: Boolean) {
             if(emptyDataBase)
@@ -95,4 +104,8 @@ class ListFragment : Fragment() {
         inflater.inflate(R.menu.list_fragment_menu,menu)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding=null
+    }
 }
