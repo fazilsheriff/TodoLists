@@ -1,10 +1,14 @@
 package com.example.todolists.fragments
 
+import android.annotation.SuppressLint
 import android.view.View
+import android.widget.Spinner
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.todolists.R
+import com.example.todolists.database.model.Priority
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -30,7 +34,7 @@ class BindingAdapters {
                      false -> view.visibility = View.INVISIBLE
                  }
              }
-/*
+
 
 
 
@@ -54,7 +58,7 @@ class BindingAdapters {
                      Priority.LOW -> { cardView.setCardBackgroundColor(cardView.context.getColor(R.color.green)) }
                  }
              }
-
+/*
              @BindingAdapter("android:sendDataToUpdateFragment")
              @JvmStatic
              fun sendDataToUpdateFragment(view: ConstraintLayout, currentItem: TodoData){

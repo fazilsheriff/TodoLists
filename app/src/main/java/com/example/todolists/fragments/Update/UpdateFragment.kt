@@ -1,8 +1,7 @@
-package com.example.todolists.fragments.Update
+package com.example.todolists.fragments.update
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.renderscript.RenderScript
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,34 +9,37 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.todolists.R
-import com.example.todolists.database.model.Priority
 import com.example.todolists.database.model.TodoData
 import com.example.todolists.database.viewmodel.SharedViewModelFragment
 import com.example.todolists.database.viewmodel.TodoViewModel
+import com.example.todolists.databinding.FragmentUpdateBinding
 import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
-import kotlinx.android.synthetic.main.row_layout.view.*
 
 
 class UpdateFragment : Fragment() {
     //  private val args by navArgs<UpdateFragmentArgs>()
-    private val args by navArgs<UpdateFragmentArgs>()
+     val args by navArgs<UpdateFragmentArgs>()
     private val mSharedViewModel: SharedViewModelFragment by viewModels()
     private val mTodoViewModelFragment: TodoViewModel by viewModels()
+    private var _binding: FragmentUpdateBinding? = null
+    private val binding get() = _binding!!
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Data binding
+        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
+
         setHasOptionsMenu(true)
-        val view = inflater.inflate(R.layout.fragment_update, container, false)
-        view.current_title_et.setText(args.currentItem.title)
-        view.current_description_et.setText(args.currentItem.descriptionn)
-        view.current_priorities_spinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
-        view.current_priorities_spinner.onItemSelectedListener = mSharedViewModel.listener
-        return view
+
+        binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
+
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,5 +102,10 @@ class UpdateFragment : Fragment() {
             Toast.makeText(requireContext(),"values should not be empty",Toast.LENGTH_LONG).show()
 
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding=null
     }
 }
