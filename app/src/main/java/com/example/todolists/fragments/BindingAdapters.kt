@@ -1,14 +1,19 @@
 package com.example.todolists.fragments
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.View
 import android.widget.Spinner
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.todolists.R
 import com.example.todolists.database.model.Priority
+import com.example.todolists.database.model.TodoData
+import com.example.todolists.fragments.List.ListFragmentDirections
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -48,17 +53,20 @@ class BindingAdapters {
                  }
              }
 
-             @SuppressLint("NewApi")
+             @RequiresApi(Build.VERSION_CODES.M)
              @BindingAdapter("android:parsePriorityColor")
              @JvmStatic
              fun parsePriorityColor(cardView: CardView, priority: Priority){
                  when(priority){
-                     Priority.HIGH -> { cardView.setCardBackgroundColor(cardView.context.getColor(R.color.red)) }
+
+
+                         Priority.HIGH -> { cardView.setCardBackgroundColor(cardView.context.getColor(R.color.red)) }
                      Priority.MEDIUM -> { cardView.setCardBackgroundColor(cardView.context.getColor(R.color.yellow)) }
                      Priority.LOW -> { cardView.setCardBackgroundColor(cardView.context.getColor(R.color.green)) }
                  }
              }
-/*
+
+
              @BindingAdapter("android:sendDataToUpdateFragment")
              @JvmStatic
              fun sendDataToUpdateFragment(view: ConstraintLayout, currentItem: TodoData){
@@ -66,7 +74,7 @@ class BindingAdapters {
                      val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
                      view.findNavController().navigate(action)
                  }
-             }*/
+             }
 
 
     }
