@@ -3,13 +3,13 @@ package com.example.todolists.fragments.List
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.view.Gravity.apply
+import android.widget.GridLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.todolists.R
 import com.example.todolists.database.model.TodoData
 import com.example.todolists.database.viewmodel.SharedViewModelFragment
@@ -17,6 +17,8 @@ import com.example.todolists.database.viewmodel.TodoViewModel
 import com.example.todolists.databinding.FragmentListBinding
 import com.example.todolists.fragments.List.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.LandingAnimator
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
 class ListFragment : Fragment() {
@@ -79,7 +81,12 @@ class ListFragment : Fragment() {
     private fun setupRecyclerview() {
         val recyclerView = binding.recylerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager =LinearLayoutManager(requireActivity())
+        recyclerView.layoutManager =StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.itemAnimator = LandingAnimator().apply {
+            addDuration = 300
+        }
+
+
         swipeToDelete(recyclerView)
     }
 
